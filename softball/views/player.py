@@ -12,7 +12,7 @@ from softball.models import *
 from softball.forms import *
 
 def list(request):
-    players = get_list_or_404(Player)
+    players = Player.objects.all()
     return render_to_response("players/list.html", { "players": players }, context_instance=RequestContext(request))
 
 def view(request, player_id):
