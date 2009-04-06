@@ -5,9 +5,9 @@ TEMPLATE_DEBUG = DEBUG
 SEND_BROKEN_LINK_EMAILS = True
 
 DATABASE_ENGINE = 'mysql'
-DATABASE_NAME = 'softball-stat-manager'
-DATABASE_USER = 'softball-stat-manager'
-DATABASE_PASSWORD = 'softball-stat-manager'
+DATABASE_NAME = 'softball'
+DATABASE_USER = 'softball'
+DATABASE_PASSWORD = 'softball'
 DATABASE_HOST = ''
 DATABASE_PORT = ''
 
