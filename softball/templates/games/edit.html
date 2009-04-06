@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Game v. {{ game.opponent }} on {{ game.game_date|date:"N j" }}{% endblock %}
+
+{% block pagename %}Game{% endblock %}
+
+{% block content %}
+
+<form action="." method="POST">
+    {{ statistic_formset.management_form }}
+
+<table>
+    {{ form }}
+</table>
+
+<h2>Players</h2>
+
+{{ statistic_formset.non_form_errors }}
+{% for form in statistic_formset.forms %}
+    {% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
+{% endfor %}
+
+<table class="list">
+    <tr>
+        <th>Name</th>
+        <th class="data">AB</th>
+        <th class="data">R</th>
+        <th class="data">H</th>
+        <th class="data">2B</th>
+        <th class="data">3B</th>
+        <th class="data">HR</th>
+        <th class="data">RBI</th>
+        <th class="data">BB</th>
+        <th class="data">Delete</th>
+    </tr>
+
+    {% for form in statistic_formset.forms %}        
+        <tr class="{% if form.non_field_errors %}error{% endif %}">
+            {{ form.id }}
+            {% for field in form %}
+                {% if field.is_hidden %}
+                    {{ field }}
+                {% else %}
+                    <td class="{% if not forloop.first and not forloop.last %}data{% endif %}{% if field.errors %} error{% endif %}">
+                        {% if field.errors %}<span class="error">{{ field.errors }}</span><br/>{% endif %}
+                        {{ field }}
+                    </td>
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+
+<p><input type="submit" value="Save Game" /></p>
+
+</form>
+
+{% endblock content %}
+

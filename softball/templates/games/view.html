@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Game: v. {{ game.opponent }} on {{ game.game_date|date:"N j" }}{% endblock %}
+
+{% block pagename %}Game{% endblock %}
+
+{% block content %}
+
+<table>
+    <tr>
+        <th>Opponent:</th>
+        <td>{{ game.opponent}}</td>
+    </tr>
+    <tr>
+        <th>Date:</th>
+        <td>{{ game.game_date|date:"N j"}}</td>
+    </tr>
+    <tr>
+        <th>Score:</th>
+        <td>{{ game.score }} to {{ game.opponent_score }} ({{ game.winner }})</td>
+    </tr>
+</table>
+
+<h2>Players</h2>
+
+<table class="list">
+    <tr>
+        <th>Name</th>
+        <th class="data">Number</th>
+        <th class="data">Avg</th>
+        <th class="data">OBP</th>
+        <th class="data">SLUG</th>
+        <th class="data">AB</th>
+        <th class="data">R</th>
+        <th class="data">H</th>
+        <th class="data">2B</th>
+        <th class="data">3B</th>
+        <th class="data">HR</th>
+        <th class="data">RBI</th>
+        <th class="data">BB</th>
+    </tr>
+{% for statistic in game.stats.all %}
+    <tr>
+        <td><a href="{% url player_view player_id=statistic.player.id %}">{{ statistic.player.first_name }} {{ statistic.player.last_name }}</a></td>
+        <td class="data">{{ statistic.player.number }}</td>
+        <td class="data">{{ statistic.average|floatformat:3 }}</td>
+        <td class="data">{{ statistic.on_base_percentage|floatformat:3 }}</td>
+        <td class="data">{{ statistic.slugging_percentage|floatformat:3 }}</td>
+        <td class="data">{{ statistic.at_bats|default:"-" }}</td>
+        <td class="data">{{ statistic.runs|default:"-" }}</td>
+        <td class="data">{{ statistic.hits|default:"-" }}</td>
+        <td class="data">{{ statistic.doubles|default:"-" }}</td>
+        <td class="data">{{ statistic.triples|default:"-" }}</td>
+        <td class="data">{{ statistic.home_runs|default:"-" }}</td>
+        <td class="data">{{ statistic.rbis|default:"-" }}</td>
+        <td class="data">{{ statistic.walks|default:"-" }}</td>
+    </tr>
+{% endfor %}
+</table>
+
+<p><a href="{% url game_edit game_id=game.id %}">Edit Game</a> <a  onclick="if (confirm('Are you sure you want to delete Game {{ game.id }}')) { window.location='{% url game_delete game_id=game.id %}'; };" href="#">Delete Game</a></p>
+{% endblock content %}
+

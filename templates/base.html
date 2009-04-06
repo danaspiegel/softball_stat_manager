@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Special Interests Softball | {% block title %}Home{% endblock %}</title>
+    <link href="{{ MEDIA_URL }}css/reset-fonts-grids.css" rel="stylesheet" type="text/css" />
+    <link href="{{ MEDIA_URL }}css/site.css" rel="stylesheet" type="text/css" />
+
+    <!--[if IE 6]>
+        <link href="{{ MEDIA_URL }}css/ie6.css" rel="stylesheet" type="text/css" />
+    <![endif]-->
+    <!--[if IE 7]>
+        <link href="{{ MEDIA_URL }}css/ie7.css" rel="stylesheet" type="text/css" />
+    <![endif]-->
+    
+    {% block media %}{% endblock media %}
+    {% if form %}{{ form.media }}{% endif %}
+
+    {% block script %}{% endblock script %}
+
+</head>
+
+<body>
+    <div id="container">
+        <div id="header">
+            {% include "header_login.html" %}
+            <div id="record">
+                <table>
+                    <tr>
+                        <th>Wins:</th>
+                        <td>{{ wins }}</td>
+                        <th>Losses:</th>
+                        <td>{{ losses }}</td>
+                        <th>Ties:</th>
+                        <td>{{ ties }}</td>
+                    </tr>
+                </table>                
+            </div>
+            <h1>Special Interests Softball</h1>
+        </div>
+
+        <div id="navbar">
+            <ul>
+                <li><a href="{% url game_list %}">Games</a></li>
+                <li><a href="{% url player_list %}">Players</a></li>
+            </ul>
+        </div>
+
+        <div id="content">
+            <h1>{% block pagename %}{% endblock %}</h1>
+            {% include "messages.html" %}
+            {% block content %}{% endblock content %}
+        </div>
+
+        <div id="footer">
+            &copy;2009 Special Interests Softball
+        </div>
+    </div>
+</body>
+</html>

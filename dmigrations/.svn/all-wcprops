@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 34
+/svn/!svn/ver/22/trunk/dmigrations
+END
+migration_state.py
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3/trunk/dmigrations/migration_state.py
+END
+LICENSE.txt
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/19/trunk/dmigrations/LICENSE.txt
+END
+migration_log.py
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/3/trunk/dmigrations/migration_log.py
+END
+migrations.py
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/3/trunk/dmigrations/migrations.py
+END
+migration_db.py
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/3/trunk/dmigrations/migration_db.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/14/trunk/dmigrations/__init__.py
+END
+migration_loader.py
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/3/trunk/dmigrations/migration_loader.py
+END
+exceptions.py
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/3/trunk/dmigrations/exceptions.py
+END
+models.py
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/3/trunk/dmigrations/models.py
+END
+generator_utils.py
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3/trunk/dmigrations/generator_utils.py
+END

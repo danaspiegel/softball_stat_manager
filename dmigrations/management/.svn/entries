@@ -1,0 +1,43 @@
+8
+
+dir
+22
+http://dmigrations.googlecode.com/svn/trunk/dmigrations/management
+http://dmigrations.googlecode.com/svn
+
+
+
+2008-09-02T18:24:20.599244Z
+11
+simon@simonwillison.net
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+39a6dc8b-8355-0410-a37f-93235a267da0
+
+commands
+dir
+
+__init__.py
+file
+
+
+
+
+2009-01-13T17:00:35.000000Z
+d41d8cd98f00b204e9800998ecf8427e
+2008-08-28T16:22:25.924251Z
+3
+simon@simonwillison.net
+

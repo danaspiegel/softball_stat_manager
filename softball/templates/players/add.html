@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}{% block pagename %}Add Player{% endblock %}{% endblock %}
+
+{% block content %}
+
+<form action="." method="POST">
+
+<table>
+    {{ form }}
+</table>
+
+<p><input type="submit" value="Add Player" /></p>
+
+</form>
+
+{% endblock content %}
+

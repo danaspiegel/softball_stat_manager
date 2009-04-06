@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/12/trunk/dmigrations/tests/test_migrations
+END
+valid_migration.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/12/trunk/dmigrations/tests/test_migrations/valid_migration.py
+END
+invalid_migration_not_subclass.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/3/trunk/dmigrations/tests/test_migrations/invalid_migration_not_subclass.py
+END
+invalid_no_migrations.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/3/trunk/dmigrations/tests/test_migrations/invalid_no_migrations.py
+END
+valid_custom_migration.py
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/12/trunk/dmigrations/tests/test_migrations/valid_custom_migration.py
+END

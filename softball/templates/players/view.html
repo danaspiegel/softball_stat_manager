@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}{% block pagename %}{{ player.first_name }} {{ player.last_name }} (#{{ player.number }}){% endblock %}{% endblock %}
+
+{% block content %}
+
+<table class="list">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Against</th>
+            <th class="data">Avg</th>
+            <th class="data">OBP</th>
+            <th class="data">SLUG</th>
+            <th class="data">AB</th>
+            <th class="data">R</th>
+            <th class="data">H</th>
+            <th class="data">2B</th>
+            <th class="data">3B</th>
+            <th class="data">HR</th>
+            <th class="data">RBI</th>
+            <th class="data">BB</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for statistic in player.stats.all %}
+        <tr>
+            <td><a href="{% url game_view game_id=statistic.game.id %}">{{ statistic.game.game_date|date:"N j" }}</a></td>
+            <td>{{ statistic.game.opponent }}</a></td>
+            <td class="data">{{ statistic.average|floatformat:3 }}</td>
+            <td class="data">{{ statistic.on_base_percentage|floatformat:3 }}</td>
+            <td class="data">{{ statistic.slugging_percentage|floatformat:3 }}</td>
+            <td class="data">{{ statistic.at_bats|default:"-" }}</td>
+            <td class="data">{{ statistic.runs|default:"-" }}</td>
+            <td class="data">{{ statistic.hits|default:"-" }}</td>
+            <td class="data">{{ statistic.doubles|default:"-" }}</td>
+            <td class="data">{{ statistic.triples|default:"-" }}</td>
+            <td class="data">{{ statistic.home_runs|default:"-" }}</td>
+            <td class="data">{{ statistic.rbis|default:"-" }}</td>
+            <td class="data">{{ statistic.walks|default:"-" }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td></td>
+            <td><strong>Total</strong></td>
+            <td class="data"><strong>{{ player.average|floatformat:3 }}</strong></td>
+            <td class="data"><strong>{{ player.on_base_percentage|floatformat:3 }}</strong></td>
+            <td class="data"><strong>{{ player.slugging_percentage|floatformat:3 }}</strong></td>
+            <td class="data"><strong>{{ player.at_bats|default:"-" }}</strong></td>
+            <td class="data"><strong>{{ player.runs|default:"-" }}</strong></td>
+            <td class="data"><strong>{{ player.hits|default:"-" }}</strong></td>
+            <td class="data"><strong>{{ player.doubles|default:"-" }}</strong></td>
+            <td class="data"><strong>{{ player.triples|default:"-" }}</strong></td>
+            <td class="data"><strong>{{ player.home_runs|default:"-" }}</strong></td>
+            <td class="data"><strong>{{ player.rbis|default:"-" }}</strong></td>
+            <td class="data"><strong>{{ player.walks|default:"-" }}</strong></td>
+        </tr>
+    </tfoot>
+</table>
+
+<p><a href="{% url player_edit player_id=player.id %}">Edit Player</a> <a onclick="if (confirm('Are you sure you want to delete Player {{ player }}')) { window.location='{% url player_delete player_id=player.id %}'; };" href="#">Delete Player</a></p>
+{% endblock content %}
+

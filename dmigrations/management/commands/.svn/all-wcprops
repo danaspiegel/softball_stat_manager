@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/11/trunk/dmigrations/management/commands
+END
+dmigrate.py
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/10/trunk/dmigrations/management/commands/dmigrate.py
+END
+dmigration.py
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/3/trunk/dmigrations/management/commands/dmigration.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/3/trunk/dmigrations/management/commands/__init__.py
+END
+syncdb.py
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/11/trunk/dmigrations/management/commands/syncdb.py
+END

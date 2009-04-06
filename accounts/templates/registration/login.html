@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<form action="." method="post">
+    <input type="hidden" name="next" value="{{ next }}" />
+
+    <table>{{ form }}</table>
+
+    <button type="submit" class="button"><span>Login &raquo;</span></button>
+</form>
+
+{% endblock %}

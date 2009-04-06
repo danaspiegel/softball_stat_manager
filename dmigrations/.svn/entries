@@ -1,0 +1,163 @@
+8
+
+dir
+22
+http://dmigrations.googlecode.com/svn/trunk/dmigrations
+http://dmigrations.googlecode.com/svn
+
+
+
+2008-11-16T22:52:00.827233Z
+22
+simon@simonwillison.net
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+39a6dc8b-8355-0410-a37f-93235a267da0
+
+migration_state.py
+file
+
+
+
+
+2009-01-13T17:00:35.000000Z
+4a70c3da51d9eb3e25a19a452259fe11
+2008-08-28T16:22:25.924251Z
+3
+simon@simonwillison.net
+
+migration_log.py
+file
+
+
+
+
+2009-01-13T17:00:35.000000Z
+f69bfa02e7541e9a0c4a7b7640883b69
+2008-08-28T16:22:25.924251Z
+3
+simon@simonwillison.net
+
+sqlite3
+dir
+
+migration_db.py
+file
+
+
+
+
+2009-01-13T17:00:35.000000Z
+65bca989902aed4ac0290263c706bcd7
+2008-08-28T16:22:25.924251Z
+3
+simon@simonwillison.net
+
+__init__.py
+file
+
+
+
+
+2009-01-13T17:00:35.000000Z
+375da8405f0804da8eabdc2a5fdaca76
+2008-09-02T18:27:43.054623Z
+14
+simon@simonwillison.net
+
+generator_utils.py
+file
+
+
+
+
+2009-01-13T17:00:35.000000Z
+35bf99950d392aa716df7f657b90cf0b
+2008-08-28T16:22:25.924251Z
+3
+simon@simonwillison.net
+
+LICENSE.txt
+file
+
+
+
+
+2009-01-13T17:00:35.000000Z
+b15a0e0417ef749f92e005210cbd1deb
+2008-09-03T14:20:32.540894Z
+19
+simon@simonwillison.net
+
+tests
+dir
+
+migrations.py
+file
+
+
+
+
+2009-01-13T17:00:35.000000Z
+0fca4a6d7fb00b8781cae7d883c2cdde
+2008-08-28T16:22:25.924251Z
+3
+simon@simonwillison.net
+
+postgresql
+dir
+
+mysql
+dir
+
+migration_loader.py
+file
+
+
+
+
+2009-01-13T17:00:35.000000Z
+d429085ed0b7768255a4b814c1d44c3e
+2008-08-28T16:22:25.924251Z
+3
+simon@simonwillison.net
+
+exceptions.py
+file
+
+
+
+
+2009-01-13T17:00:35.000000Z
+cca3f5ea36baa598f55a6a7bfded5722
+2008-08-28T16:22:25.924251Z
+3
+simon@simonwillison.net
+
+models.py
+file
+
+
+
+
+2009-01-13T17:00:35.000000Z
+d41d8cd98f00b204e9800998ecf8427e
+2008-08-28T16:22:25.924251Z
+3
+simon@simonwillison.net
+
+management
+dir
+

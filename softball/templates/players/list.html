@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}{% block pagename %}Players{% endblock %}{% endblock %}
+
+{% block content %}
+
+<table class="list">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th class="data">Number</th>
+            <th class="data">Games</th>
+            <th class="data">Avg</th>
+            <th class="data">OBP</th>
+            <th class="data">SLUG</th>
+            <th class="data">AB</th>
+            <th class="data">R</th>
+            <th class="data">H</th>
+            <th class="data">2B</th>
+            <th class="data">3B</th>
+            <th class="data">HR</th>
+            <th class="data">RBI</th>
+            <th class="data">BB</th>
+            <th class="data"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for player in players %}
+            <tr>
+                <td><a href="{% url player_view player_id=player.id %}">{{ player.first_name }} {{ player.last_name }}</a></td>
+                <td class="data">{{ player.number }}</td>
+                <td class="data">{{ player.stats.count }}</td>
+                <td class="data">{{ player.average|floatformat:3 }}</td>
+                <td class="data">{{ player.on_base_percentage|floatformat:3 }}</td>
+                <td class="data">{{ player.slugging_percentage|floatformat:3 }}</td>
+                <td class="data">{{ player.at_bats|default:"-" }}</td>
+                <td class="data">{{ player.runs|default:"-" }}</td>
+                <td class="data">{{ player.hits|default:"-" }}</td>
+                <td class="data">{{ player.doubles|default:"-" }}</td>
+                <td class="data">{{ player.triples|default:"-" }}</td>
+                <td class="data">{{ player.home_runs|default:"-" }}</td>
+                <td class="data">{{ player.rbis|default:"-" }}</td>
+                <td class="data">{{ player.walks|default:"-" }}</td>
+                <td><a href="{% url player_edit player_id=player.id %}">edit</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="15"><a href="{% url player_add %}">Add Player</a></td>
+        </tr>
+    </tfoot>
+</table>
+
+{% endblock content %}

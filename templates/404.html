@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}{% block pagename %}404 &ndash; Page Cannot Be Found{% endblock %}{% endblock %}
+
+{% block content %}
+<p>You've stumbled upon a page that we haven't yet created. There are a few possible reasons why:
+<ul>
+    <li>We've got an incorrect link on one of our pages, and you clicked it</li>
+    <li>You've typed the address of a real page incorrectly into your web browser's address bar</li>
+    <li>Our web server isn't working properly</li>
+    <li>You've stumbled onto a bug with our software</li>
+</ul>
+</p>
+<h2>What can you do now?</h2>
+<ol>
+    <li>Try going to the page again. If there was a server error, or you've typed the page's address incorrectly, trying to go to the correct page should fix this error.</li>
+    <li><a href="/contact/">Let us know</a>. If you've found a bug, or a link on one of our pages was incorrect, please let us know so we can fix it. Drop us a note via our <a href="/contact/">Contact page</a> including what you did to get the error.</li>
+</ol>
+{% endblock content %}

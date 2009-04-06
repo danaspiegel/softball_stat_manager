@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}{% block pagename %}Games{% endblock %}{% endblock %}
+
+{% block content %}
+
+<table class="list">
+    <thead>
+        <tr>
+            <th>Opponent</th>
+            <th class="data">Date</th>
+            <th class="data"># Players</th>
+            <th class="data">Our Score</th>
+            <th class="data">Opponent Score</th>
+            <th class="data"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for game in games %}
+            <tr>
+                <td><a href="{% url game_view game_id=game.id %}">{{ game.opponent }}</a></td>
+                <td class="data">{{ game.game_date|date:"N j" }}</td>
+                <td class="data">{{ game.players.all.count }}</td>
+                <td class="data">{{ game.score }}</td>
+                <td class="data">{{ game.opponent_score }}</td>
+                <td><a href="{% url game_edit game_id=game.id %}">edit</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="6"><a href="{% url game_add %}">Add Game</a></td>
+        </tr>
+    </tfoot>
+</table>
+
+{% endblock content %}

@@ -1,0 +1,262 @@
+/*** General ***/
+
+html {
+	background: #fff;
+}
+
+body {
+	margin: 0 auto;
+	color: #000;
+	font: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+}
+
+input[type=text], input[type=password] {
+	padding: 2px;
+	border: 1px solid #ccc;
+}
+
+textarea {
+	padding: 2px;
+	border: 1px solid #ccc;
+	width: 90%;
+}
+
+button::-moz-focus-inner {
+	/* Needed otherwise the span gets a 1px border around it that can't otherwise be removed */
+    border: none;
+}
+
+h1 {
+	font-size: 130%;
+	font-weight: bold;
+}
+
+h2 {
+	font-size: 120%;
+	font-weight: bold;
+}
+
+p {
+	margin: 6px 0;
+	line-height: 130%;
+}
+
+strong {
+	font-weight: bold;
+}
+
+em {
+	font-style: italic;
+}
+
+a:link {
+	color: #060;
+}
+
+a:visited {
+	color: #060;
+}
+
+.error, .errorlist {
+	color: red;
+	font-size: 80%;
+}
+
+.float-right {
+	float: right;
+}
+
+.float-left {
+	float: left;
+}
+
+.large {
+	font-size: 130%;
+}
+
+.small {
+	font-size: 90%;
+}
+
+.gray {
+	color: gray;
+}
+
+.border {
+	border: 1px solid #aaa;
+	padding: 4px;
+	margin: 5px 0;
+}
+
+.gray-background {
+	color:  white;
+	background-color: gray;
+}
+
+.clear {
+	clear: both;
+}
+
+.center {
+	text-align: center;
+}
+
+/* Page Elements */
+
+div#container {
+	width: 960px;
+	margin: 0 auto;
+	text-align: left;
+}
+
+div#header {
+    padding-top: 10px;
+}
+
+div#header h1 {
+	font-weight: bold;
+	font-size: 150%;
+	padding-top: 30px;
+}
+
+div#header #logo {
+	float: left;
+}
+
+div#header div#login_status {
+	float: right;
+	height: 19px;
+	margin-right: 10px;
+	font-size: 90%;
+	color: #000;
+	line-height: 160%;
+}
+
+div#footer {
+	font-size: 90%;
+	color: gray;
+	margin: 20px 0 0 0;
+	padding: 5px 0;
+	border-top: 1px silver solid;
+}
+
+div#messages {
+	padding: 4px;
+	margin: 6px 0;
+	border: 1px solid green;
+	color: green;
+}
+
+div#messages p {
+	margin: 0px;
+	padding: 3px 0;
+}
+
+div#content,
+div#content h1 {
+	margin: 8px 0;
+}
+
+/* Navbar */
+
+
+#navbar {
+	color: #fff;
+	font-weight: bold;
+	margin: 8px 0px;
+	background-color: #060;
+    height: 20px;
+    padding-top: 5px;
+}
+
+#navbar li {
+	list-style: none;
+}
+
+#navbar ul li {
+	display: inline;
+}
+
+#navbar a,
+#navbar a:visited {
+	color: #fff;
+    padding: 5px 10px;
+	text-decoration: none;
+}
+
+#navbar a:hover,
+#navbar a.active {
+	background: #0a0;
+}
+
+
+/* Tables */
+
+table {
+	margin: 10px 0;
+	border-collapse :collapse;
+}
+
+td {
+	border-collapse: collapse;
+	padding: 5px 10px;
+}
+
+tr.error,
+td.error,
+th.error {
+    background: #fcc;
+	font-size: 100%;
+}
+
+th {
+    padding: 5px 0;
+}
+
+thead th,
+tbody th {
+    font-weight: bold;
+}
+
+table.list {
+    border: 1px solid #CCC;
+}
+
+table.list th {
+	padding: 5px 10px;    
+}
+
+table.list td {
+    border-top: 1px solid #CCC;
+    padding: 5px 10px;
+}
+
+table.list tbody th {
+  background: #fafafb;
+  border-top: 1px solid #CCC;
+}
+
+table.list tbody tr:hover {
+  background: #eee;
+}
+
+table.list tfoot td,
+table.list tfoot th {
+    font-weight: bold;
+    border-top: 3px solid #CCC;
+}
+
+th.data, td.data {
+	text-align: right;
+}
+
+table.list th.data input[type=text],
+table.list td.data input[type=text] {
+	width: 20px;
+}
+
+div#record {
+    float: right;
+/*    margin-top: 20px;*/
+    clear: right;
+}

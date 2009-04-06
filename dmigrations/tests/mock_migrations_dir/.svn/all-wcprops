@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/12/trunk/dmigrations/tests/mock_migrations_dir
+END
+009_one.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/12/trunk/dmigrations/tests/mock_migrations_dir/009_one.py
+END
+09_two.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/12/trunk/dmigrations/tests/mock_migrations_dir/09_two.py
+END
+001_foo.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/12/trunk/dmigrations/tests/mock_migrations_dir/001_foo.py
+END
+005_DEV_hello.py
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/12/trunk/dmigrations/tests/mock_migrations_dir/005_DEV_hello.py
+END
+002_bar.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/12/trunk/dmigrations/tests/mock_migrations_dir/002_bar.py
+END

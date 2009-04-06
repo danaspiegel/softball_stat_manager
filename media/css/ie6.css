@@ -1,0 +1,13 @@
+ul.tabs li {
+    width: 170px;
+    font-size: 90%;
+    font-weight: normal;
+}
+
+ul.tabs li a {
+    padding: 7px 0;
+}
+
+ul.tabs li.green-background {
+    border: none;
+}

@@ -1,0 +1,78 @@
+[
+    {
+        "pk": 1,
+         "model": "django_chronograph.job",
+         "fields": 
+        {
+            "next_run": "2009-03-14 16:10:50",
+             "name": "django_mailer send_mail",
+             "args": "",
+             "last_run": "2009-03-14 16:09:50",
+             "disabled": 0,
+             "frequency": "MINUTELY",
+             "command": "send_mail",
+             "params": ""
+        }
+    },
+    {
+        "pk": 2,
+         "model": "django_chronograph.job",
+         "fields": 
+        {
+            "next_run": "2009-03-14 16:10:53",
+             "name": "django_mailer retry_deferred",
+             "args": "",
+             "last_run": "2009-03-14 15:50:53",
+             "disabled": 0,
+             "frequency": "MINUTELY",
+             "command": "retry_deferred",
+             "params": "interval:20"
+        }
+    },
+    {
+        "pk": 3,
+         "model": "django_chronograph.job",
+         "fields": 
+        {
+            "next_run": "2009-03-14 16:10:53",
+             "name": "workorder create_workorders",
+             "args": "",
+             "last_run": "2009-03-14 15:40:53",
+             "disabled": 0,
+             "frequency": "MINUTELY",
+             "command": "create_workorders",
+             "params": "interval:15"
+        }
+    },
+    {
+        "pk": 4,
+         "model": "django_chronograph.job",
+         "fields": 
+        {
+            "next_run": "2009-03-14 16:10:53",
+             "name": "workorder route_workorders",
+             "args": "",
+             "last_run": "2009-03-14 15:45:53",
+             "disabled": 0,
+             "frequency": "MINUTELY",
+             "command": "route_workorders",
+             "params": "interval:15"
+        }
+    },
+    {
+        "pk": 5,
+         "model": "django_chronograph.job",
+         "fields": 
+        {
+            "next_run": "2009-03-14 16:10:53",
+             "name": "workorder update_workorders",
+             "args": "",
+             "last_run": "2009-03-14 15:50:53",
+             "disabled": 0,
+             "frequency": "MINUTELY",
+             "command": "update_workorders",
+             "params": "interval:15"
+        }
+    }
+]
+
