@@ -50,15 +50,15 @@ em {
 }
 
 a:link {
-	color: #060;
+	color: #12325f;
 }
 
 a:visited {
-	color: #060;
+	color: #12325f;
 }
 
 .error, .errorlist {
-	color: red;
+	color: #a81b30;
 	font-size: 80%;
 }
 
@@ -80,6 +80,14 @@ a:visited {
 
 .gray {
 	color: gray;
+}
+
+.green {
+	color: green;
+}
+
+.red {
+	color: #a81b30;
 }
 
 .border {
@@ -110,13 +118,15 @@ div#container {
 }
 
 div#header {
-    padding-top: 10px;
+    margin-top: 10px;
+    height: 100px;
 }
 
 div#header h1 {
 	font-weight: bold;
-	font-size: 150%;
-	padding-top: 30px;
+	font-size: 160%;
+	padding: 80px 0 0 10px;
+	float: left;
 }
 
 div#header #logo {
@@ -132,6 +142,11 @@ div#header div#login_status {
 	line-height: 160%;
 }
 
+div#header div#record {
+    float: right;
+    margin-top: 50px;
+    clear: right;
+}
 div#footer {
 	font-size: 90%;
 	color: gray;
@@ -143,8 +158,8 @@ div#footer {
 div#messages {
 	padding: 4px;
 	margin: 6px 0;
-	border: 1px solid green;
-	color: green;
+	border: 1px solid #12325f;
+	color: #12325f;
 }
 
 div#messages p {
@@ -153,7 +168,8 @@ div#messages p {
 }
 
 div#content,
-div#content h1 {
+div#content h1,
+div#content h2 {
 	margin: 8px 0;
 }
 
@@ -164,7 +180,7 @@ div#content h1 {
 	color: #fff;
 	font-weight: bold;
 	margin: 8px 0px;
-	background-color: #060;
+	background-color: #12325f;
     height: 20px;
     padding-top: 5px;
 }
@@ -186,7 +202,7 @@ div#content h1 {
 
 #navbar a:hover,
 #navbar a.active {
-	background: #0a0;
+	background: #34547f;
 }
 
 
@@ -253,10 +269,4 @@ th.data, td.data {
 table.list th.data input[type=text],
 table.list td.data input[type=text] {
 	width: 20px;
-}
-
-div#record {
-    float: right;
-/*    margin-top: 20px;*/
-    clear: right;
 }

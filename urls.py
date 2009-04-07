@@ -11,7 +11,7 @@ from contact_form.views import contact_form
 
 urlpatterns = patterns("",    
     url(r"", include("softball.urls")),
-    url(r"^account/", include("accounts.urls")),
+    url(r"^accounts/", include("accounts.urls")),
     url(r"^contact/$", contact_form, name="contact_form"),
     url(r"^contact/sent/$", direct_to_template, { "template": "contact_form/contact_form_sent.html" }, name="contact_form_sent"),
 	url(r"^admin/chronograph/job/(?P<pk>\d+)/run/$", "django_chronograph.views.job_run", name="admin_chronograph_job_run"),

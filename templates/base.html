@@ -25,20 +25,21 @@
 <body>
     <div id="container">
         <div id="header">
+            <a href="{% url softball_index %}"><img id="logo" src="{{ MEDIA_URL }}images/logo.png" /></a>
+            <h1>Special Interests Softball</h1>
             {% include "header_login.html" %}
             <div id="record">
                 <table>
                     <tr>
                         <th>Wins:</th>
-                        <td>{{ wins }}</td>
+                        <td><span class="green"><strong>{{ wins }}</strong></span></td>
                         <th>Losses:</th>
-                        <td>{{ losses }}</td>
+                        <td><span class="red"><strong>{{ losses }}</strong></span></td>
                         <th>Ties:</th>
-                        <td>{{ ties }}</td>
+                        <td><span class="gray"><strong>{{ ties }}</strong></span></td>
                     </tr>
                 </table>                
             </div>
-            <h1>Special Interests Softball</h1>
         </div>
 
         <div id="navbar">
