@@ -37,7 +37,7 @@ h2 {
 }
 
 p {
-	margin: 6px 0;
+	margin: 0 0 6px 0;
 	line-height: 130%;
 }
 
@@ -227,6 +227,7 @@ th.error {
 
 th {
     padding: 5px 0;
+    vertical-align: baseline;
 }
 
 thead th,
