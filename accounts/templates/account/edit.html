@@ -2,16 +2,14 @@
 
 {% block title %}{% block pagename %}Update Your Account{% endblock %}{% endblock %}
 
-{% block side-content %}
-    <p><a href="{% url password_change %}">Change Your Password</a></p>
-{% endblock side-content %}
-
-{% block main-content %}
+{% block content %}
     <form action="." method="post" class="uniForm">
 
-        {% include "basic_form.html" %}
+        <table>
+            {{ form }}
+        </table>
 
-        <button type="submit" class="button"><span>Update Account</span></button>
-
+        <p><input type="submit" value="Update Account" /> <a href="{% url password_change %}">Change Your Password</a></p>
+        
     </form>
-{% endblock main-content %}
+{% endblock %}

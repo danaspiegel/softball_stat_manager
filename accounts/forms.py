@@ -1,6 +1,3 @@
-# Copyright (c) 2008-9 Sociable Marketplaces, Inc. All rights reserved.
-
-
 import datetime
 from django.forms import *
 from django.utils.safestring import mark_safe
