@@ -46,7 +46,9 @@
             <ul>
                 <li><a href="{% url game_list %}">Games</a></li>
                 <li><a href="{% url player_list %}">Players</a></li>
-                <li><a href="{% url account %}">Account</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url account %}">Account</a></li>
+                {% endif %}
             </ul>
         </div>
 

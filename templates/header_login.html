@@ -1,9 +1,11 @@
 <div id="login_status">
     {% if user.is_authenticated %}
-        <nobr><span>Logged in as <a href="{% url account %}">{{ user.username }}</a> 
-                {% if user.is_superuser %}(admin){% endif %}
-                {% if user.is_staff and not user.is_superuser %}(staff){% endif %}
-            &mdash; <a href="{% url logout %}">logout</a></span></nobr>
+        <nobr>
+            <span>Logged in as <a href="{% url account %}">{{ user.username }}</a> 
+            {% if user.is_superuser %}(admin){% endif %}
+            {% if user.is_staff and not user.is_superuser %}(staff){% endif %}
+            &mdash; <a href="{% url logout %}">logout</a></span>
+        </nobr>
     {% else %}
         <nobr><span><a href="{% url login %}">login</a></span></nobr>
     {% endif %}
