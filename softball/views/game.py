@@ -25,6 +25,7 @@ def add(request):
         form = GameForm(request.POST, instance=game)
         if form.is_valid():
             game = form.save()
+            request.user.message_set.create(message="Game %s created" % str(game))
             return HttpResponseRedirect(reverse("game_list"))
     else:
         form = GameForm(instance=game)
@@ -39,6 +40,7 @@ def edit(request, game_id):
         if form.is_valid() and statistic_formset.is_valid():
             game = form.save()
             statistic_formset.save()
+            request.user.message_set.create(message="Game %s updated" % str(game))
             return HttpResponseRedirect(reverse("game_view", kwargs={ "game_id": game.id }))
     else:
         form = GameForm(instance=game)

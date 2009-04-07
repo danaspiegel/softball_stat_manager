@@ -650,9 +650,9 @@ class Game(models.Model):
         >>> from datetime import date
         >>> g = Game(game_date=date(2009, 01, 01), score=5, opponent_score=1, opponent="Test Opponent")
         >>> str(g)
-        "v. Test Opponent on 2009-01-01 (5 to 1)"
+        "v. Test Opponent on Jan 01 (5 to 1)"
         """
-        return "v. %s on %s (%s to %s)" % (self.opponent, self.game_date, self.score, self.opponent_score, )
+        return "v. %s on %s (%s to %s)" % (self.opponent, self.game_date.strftime("%b %d"), self.score, self.opponent_score, )
 
 class Statistic(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
