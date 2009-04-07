@@ -19,6 +19,10 @@
         <th>Score:</th>
         <td>{{ game.score }} to {{ game.opponent_score }} ({{ game.winner }})</td>
     </tr>
+    <tr>
+        <th>Notes:</th>
+        <td>{{ game.notes|linebreaks }}</td>
+    </tr>
 </table>
 
 <h2>Players</h2>

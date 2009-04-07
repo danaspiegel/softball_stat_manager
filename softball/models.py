@@ -536,6 +536,57 @@ class Player(models.Model):
     slugging_percentage = property(_slugging_percentage_get)
 
 class Game(models.Model):
+    """
+    >>> from datetime import date
+    
+    Test the null fields
+    >>> g = Game.objects.create()
+    Traceback (most recent call last):
+        ...
+    IntegrityError: (1048, "Column 'game_date' cannot be null")
+    >>> g = Game.objects.create(game_date=date(2009, 01, 01))
+    Traceback (most recent call last):
+        ...
+    IntegrityError: (1048, "Column 'score' cannot be null")
+    >>> g = Game.objects.create(game_date=date(2009, 01, 01), score=0)
+    Traceback (most recent call last):
+        ...
+    IntegrityError: (1048, "Column 'opponent_score' cannot be null")
+    >>> g = Game.objects.create(game_date=date(2009, 01, 01), score=-1, opponent_score=0)
+    Traceback (most recent call last):
+        ...
+    Warning: Out of range value adjusted for column 'score' at row 1
+    >>> g = Game.objects.create(game_date=date(2009, 01, 01), score=0, opponent_score=-1)
+    Traceback (most recent call last):
+        ...
+    Warning: Out of range value adjusted for column 'opponent_score' at row 1
+    >>> g = Game.objects.create(game_date=date(2009, 01, 01), score=0, opponent_score=0)
+    >>> g.score = -1
+    >>> g.save()
+    Traceback (most recent call last):
+        ...
+    Warning: Out of range value adjusted for column 'score' at row 1
+    >>> g = Game.objects.create(game_date=date(2009, 01, 01), score=0, opponent_score=0)
+    >>> g.opponent_score = -1
+    >>> g.save()
+    Traceback (most recent call last):
+        ...
+    Warning: Out of range value adjusted for column 'opponent_score' at row 1
+    >>> g = Game.objects.create(game_date=date(2009, 01, 01), score=0, opponent_score=0)
+    >>> g.notes = "Test notes"
+    >>> g.save()
+    >>> str(g.notes)
+    "Test notes"
+    >>> g = Game.objects.get(pk=g.id)
+    >>> str(g.notes)
+    "Test notes"
+    >>> str(g.opponent)
+    "Unknown"
+    >>> g = Game.objects.create(game_date=date(2009, 01, 01), score=0, opponent_score=0, opponent="Test Opponent")
+    >>> g = Game.objects.get(pk=g.id)
+    >>> str(g.opponent)
+    "Test Opponent"
+    """
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     game_date = models.DateField()
@@ -543,6 +594,7 @@ class Game(models.Model):
     players = models.ManyToManyField(Player, related_name="games", through="Statistic", null=True, blank=True)
     score = models.PositiveIntegerField()
     opponent_score = models.PositiveIntegerField()
+    notes = models.TextField(blank=True, null=True)
     
     class Meta:
         ordering = ["game_date",]
