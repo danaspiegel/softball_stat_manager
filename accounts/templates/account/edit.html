@@ -3,23 +3,11 @@
 {% block title %}{% block pagename %}Update Your Account{% endblock %}{% endblock %}
 
 {% block content %}
-    <form action="." method="post" class="uniForm">
+    <form action="." method="POST">
 
-<<<<<<< HEAD:accounts/templates/account/edit.html
-        <table>
-            {{ form }}
-        </table>
-=======
-        {% include "basic_form.html" %}
-
-        <p><input type="submit" value="Update Account" /> <a href="{% url password_change %}">Change Your Password</a></p>
->>>>>>> master:accounts/templates/account/edit.html
+        <table>{{ form }}</table>
 
         <p><input type="submit" value="Update Account" /> <a href="{% url password_change %}">Change Your Password</a></p>
         
     </form>
-<<<<<<< HEAD:accounts/templates/account/edit.html
 {% endblock %}
-=======
-{% endblock content %}
->>>>>>> master:accounts/templates/account/edit.html
