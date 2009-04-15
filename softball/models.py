@@ -1,81 +1,77 @@
+from decimal import Decimal
+
 from django.db import models
 
-def average(at_bats, walks, hits):
+def average(at_bats, hits):
     """
-    Avg=H/(AB-BB)
+    Avg = H / AB
     
-    >>> average(0, 0, 0)
-    0.0
-    >>> average(4, 1, 2)
-    0.66666666666666663
-    >>> average(1, 0, 1)
-    1.0
-    >>> average(2, 0, 1)
-    0.5
-    >>> average(1, 1, 0)
-    0.0
+    >>> average(0, 0)
+    Decimal("0")
+    >>> average(4, 2)
+    Decimal("0.5")
+    >>> average(1, 1)
+    Decimal("1")
+    >>> average(2, 1)
+    Decimal("0.5")
+    >>> average(1, 0)
+    Decimal("0")
     """
     if at_bats == 0:
-        return 0.0
-    if walks == at_bats:
-        return 0.0
-    ab_bb = at_bats - walks
-    if ab_bb <= 0:
-        return 0.0
-    return float(hits)/float(ab_bb)
+        return Decimal("0")
+    if at_bats < hits:
+        return Decimal("0")
+    return Decimal(hits) / Decimal(at_bats)
 
 def on_base_percentage(at_bats, walks, hits):
     """
-    OBP=(H+BB)/AB
+    OBP = (H + BB) / (AB + BB)
     
     >>> on_base_percentage(0, 0, 0)
-    0.0
+    Decimal("0")
     >>> on_base_percentage(1, 0, 0)
-    0.0
+    Decimal("0")
     >>> on_base_percentage(1, 0, 1)
-    1.0
+    Decimal("1")
     >>> on_base_percentage(2, 1, 1)
-    1.0
+    Decimal("0.6666666666666666666666666667")
     >>> on_base_percentage(4, 1, 1)
-    0.5
+    Decimal("0.4")
     >>> on_base_percentage(4, 0, 1)
-    0.25
+    Decimal("0.25")
     >>> on_base_percentage(4, 1, 0)
-    0.25
+    Decimal("0.2")
     """
     if at_bats == 0:
-        return 0.0
-    return float(hits + walks) / float(at_bats)
+        return Decimal("0")
+    return Decimal(hits + walks) / Decimal(at_bats + walks)
 
-def slugging_percentage(at_bats, walks, hits, doubles, triples, home_runs):
+def slugging_percentage(at_bats, hits, doubles, triples, home_runs):
     """
-    SLG=(H+2b+(3B*2)+(HR*3))/(AB-BB)
+    SLG = (H + (2B * 2) + (3B * 2) + (HR * 3)) / AB
 
-    >>> slugging_percentage(0, 0, 0, 0, 0, 0)
-    0.0                                    
-    >>> slugging_percentage(3, 3, 0, 0, 0, 0)
-    0.0                                    
-    >>> slugging_percentage(3, 0, 1, 1, 1, 0)
-    1.3333333333333333                     
-    >>> slugging_percentage(4, 0, 1, 1, 1, 1)
-    1.75                                   
-    >>> slugging_percentage(1, 0, 1, 0, 0, 0)
-    1.0                                    
-    >>> slugging_percentage(1, 0, 0, 1, 0, 0)
-    1.0                                    
-    >>> slugging_percentage(1, 0, 0, 0, 1, 0)
-    2.0                                    
-    >>> slugging_percentage(1, 0, 0, 0, 0, 1)
-    3.0                                    
-    >>> slugging_percentage(8, 0, 2, 2, 2, 2)
-    1.75
+    >>> slugging_percentage(0, 0, 0, 0, 0)
+    Decimal("0")
+    >>> slugging_percentage(3, 0, 0, 0, 0)
+    Decimal("0")
+    >>> slugging_percentage(3, 1, 1, 1, 0)
+    Decimal("2")
+    >>> slugging_percentage(4, 1, 1, 1, 1)
+    Decimal("2.5")
+    >>> slugging_percentage(1, 1, 0, 0, 0)
+    Decimal("1")
+    >>> slugging_percentage(1, 0, 1, 0, 0)
+    Decimal("2")
+    >>> slugging_percentage(1, 0, 0, 1, 0)
+    Decimal("3")
+    >>> slugging_percentage(1, 0, 0, 0, 1)
+    Decimal("4")
+    >>> slugging_percentage(8, 2, 2, 2, 2)
+    Decimal("2.5")
     """
     if at_bats == 0:
-        return 0.0
-    ab_bb = at_bats - walks
-    if ab_bb <= 0:
-        return 0.0
-    return float(hits + doubles + (2 * triples) + (3 * home_runs))/float(ab_bb)
+        return Decimal("0")
+    return Decimal(hits + (2 * doubles) + (3 * triples) + (4 * home_runs)) / Decimal(at_bats)
     
 class Player(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
@@ -102,7 +98,7 @@ class Player(models.Model):
         else:
             return "%s %s" % (self.first_name, self.last_name, )
     
-    def _total_hits_get(self):
+    def _hits_get(self):
         """
         Returns the total hits, doubles, triples, and home_runs
         
@@ -116,57 +112,57 @@ class Player(models.Model):
         >>> g7, created = Game.objects.get_or_create(game_date=date(2009, 07, 01), score=2, opponent_score=3, opponent="Test Opponent 7")
         >>> g8, created = Game.objects.get_or_create(game_date=date(2009, 01, 01), score=2, opponent_score=3, opponent="Test Opponent 8")
         >>> p, created = Player.objects.get_or_create(first_name="Test", last_name="Player")
-        >>> p.total_hits
+        >>> p.hits
         0
-        >>> Statistic(player=p, game=g1, hits=1, doubles=0, triples=0, home_runs=0).save()
-        >>> Statistic(player=p, game=g2, hits=1, doubles=0, triples=0, home_runs=0).save()
-        >>> p.total_hits
+        >>> Statistic(player=p, game=g1, singles=1, doubles=0, triples=0, home_runs=0).save()
+        >>> Statistic(player=p, game=g2, singles=1, doubles=0, triples=0, home_runs=0).save()
+        >>> p.hits
         2
         
         Test the accumulation of stats
-        >>> Statistic(player=p, game=g3, hits=0, doubles=0, triples=0, home_runs=0).save()
-        >>> p.total_hits
+        >>> Statistic(player=p, game=g3, singles=0, doubles=0, triples=0, home_runs=0).save()
+        >>> p.hits
         2
-        >>> Statistic(player=p, game=g4, hits=1, doubles=0, triples=0, home_runs=0).save()
-        >>> p.total_hits
+        >>> Statistic(player=p, game=g4, singles=1, doubles=0, triples=0, home_runs=0).save()
+        >>> p.hits
         3
-        >>> Statistic(player=p, game=g5, hits=0, doubles=1, triples=0, home_runs=0).save()
-        >>> p.total_hits
+        >>> Statistic(player=p, game=g5, singles=0, doubles=1, triples=0, home_runs=0).save()
+        >>> p.hits
         4
-        >>> Statistic(player=p, game=g6, hits=0, doubles=0, triples=1, home_runs=0).save()
-        >>> p.total_hits
+        >>> Statistic(player=p, game=g6, singles=0, doubles=0, triples=1, home_runs=0).save()
+        >>> p.hits
         5
-        >>> Statistic(player=p, game=g7, hits=0, doubles=0, triples=0, home_runs=1).save()
-        >>> p.total_hits
+        >>> Statistic(player=p, game=g7, singles=0, doubles=0, triples=0, home_runs=1).save()
+        >>> p.hits
         6
-        >>> Statistic(player=p, game=g8, hits=1, doubles=2, triples=3, home_runs=4).save()
-        >>> p.total_hits
+        >>> Statistic(player=p, game=g8, singles=1, doubles=2, triples=3, home_runs=4).save()
+        >>> p.hits
         16
         
         Clear out the Statistics, and test a single statistic
         >>> p.stats.all().delete()
-        >>> Statistic(player=p, game=g1, hits=0, doubles=0, triples=0, home_runs=0).save()
-        >>> p.total_hits
+        >>> Statistic(player=p, game=g1, singles=0, doubles=0, triples=0, home_runs=0).save()
+        >>> p.hits
         0
         >>> p.stats.all().delete()
-        >>> Statistic(player=p, game=g2, hits=1, doubles=0, triples=0, home_runs=0).save()
-        >>> p.total_hits
+        >>> Statistic(player=p, game=g2, singles=1, doubles=0, triples=0, home_runs=0).save()
+        >>> p.hits
         1
         >>> p.stats.all().delete()
-        >>> Statistic(player=p, game=g3, hits=0, doubles=1, triples=0, home_runs=0).save()
-        >>> p.total_hits
+        >>> Statistic(player=p, game=g3, singles=0, doubles=1, triples=0, home_runs=0).save()
+        >>> p.hits
         1
         >>> p.stats.all().delete()
-        >>> Statistic(player=p, game=g4, hits=0, doubles=0, triples=1, home_runs=0).save()
-        >>> p.total_hits
+        >>> Statistic(player=p, game=g4, singles=0, doubles=0, triples=1, home_runs=0).save()
+        >>> p.hits
         1
         >>> p.stats.all().delete()
-        >>> Statistic(player=p, game=g5, hits=0, doubles=0, triples=0, home_runs=1).save()
-        >>> p.total_hits
+        >>> Statistic(player=p, game=g5, singles=0, doubles=0, triples=0, home_runs=1).save()
+        >>> p.hits
         1
         >>> p.stats.all().delete()
-        >>> Statistic(player=p, game=g6, hits=1, doubles=2, triples=3, home_runs=4).save()
-        >>> p.total_hits
+        >>> Statistic(player=p, game=g6, singles=1, doubles=2, triples=3, home_runs=4).save()
+        >>> p.hits
         10
         
         Make sure we clean up from these tests
@@ -174,8 +170,8 @@ class Player(models.Model):
         >>> Game.objects.all().delete()
         >>> Player.objects.all().delete()
         """
-        return reduce(lambda total, s: total + s.total_hits, self.stats.all(), 0)
-    total_hits = property(_total_hits_get)
+        return reduce(lambda total, s: total + s.hits, self.stats.all(), 0)
+    hits = property(_hits_get)
     
     def _walks_get(self):
         """
@@ -239,7 +235,7 @@ class Player(models.Model):
         return reduce(lambda total, s: total + s.runs, self.stats.all(), 0)
     runs = property(_runs_get)
     
-    def _hits_get(self):
+    def _singles_get(self):
         """
         Returns the total number of walks for this player
 
@@ -249,17 +245,17 @@ class Player(models.Model):
         >>> g3, created = Game.objects.get_or_create(game_date=date(2009, 03, 01), score=2, opponent_score=3, opponent="Test Opponent 3")
         >>> g4, created = Game.objects.get_or_create(game_date=date(2009, 04, 01), score=2, opponent_score=3, opponent="Test Opponent 4")
         >>> p, created = Player.objects.get_or_create(first_name="Test", last_name="Player")
-        >>> p.hits
+        >>> p.singles
         0
-        >>> Statistic(player=p, game=g1, hits=1, doubles=0, triples=0, home_runs=0).save()
-        >>> Statistic(player=p, game=g2, hits=1, doubles=0, triples=0, home_runs=0).save()
-        >>> p.hits
+        >>> Statistic(player=p, game=g1, singles=1, doubles=0, triples=0, home_runs=0).save()
+        >>> Statistic(player=p, game=g2, singles=1, doubles=0, triples=0, home_runs=0).save()
+        >>> p.singles
         2
-        >>> Statistic(player=p, game=g3, walks=1, hits=0, doubles=0, triples=0, home_runs=0).save()
-        >>> p.hits
+        >>> Statistic(player=p, game=g3, walks=1, singles=0, doubles=0, triples=0, home_runs=0).save()
+        >>> p.singles
         2
-        >>> Statistic(player=p, game=g4, walks=2, hits=1, doubles=0, triples=0, home_runs=0).save()
-        >>> p.hits
+        >>> Statistic(player=p, game=g4, walks=2, singles=1, doubles=0, triples=0, home_runs=0).save()
+        >>> p.singles
         3
         
         Make sure we clean up from these tests
@@ -267,8 +263,8 @@ class Player(models.Model):
         >>> Game.objects.all().delete()
         >>> Player.objects.all().delete()
         """
-        return reduce(lambda total, s: total + s.hits, self.stats.all(), 0)
-    hits = property(_hits_get)
+        return reduce(lambda total, s: total + s.singles, self.stats.all(), 0)
+    singles = property(_singles_get)
 
     def _at_bats_get(self):
         """
@@ -419,23 +415,23 @@ class Player(models.Model):
         >>> g5, created = Game.objects.get_or_create(game_date=date(2009, 05, 01), score=2, opponent_score=3, opponent="Test Opponent 5")
         >>> p, created = Player.objects.get_or_create(first_name="Test", last_name="Player")
         >>> p.average
-        0.0
+        Decimal("0")
         
-        >>> Statistic(player=p, game=g1, at_bats=4, walks=2, hits=1).save()
+        >>> Statistic(player=p, game=g1, at_bats=4, walks=2, singles=1).save()
         >>> p.average
-        0.5
-        >>> Statistic(player=p, game=g2, at_bats=0, walks=0, hits=0).save()
+        Decimal("0.25")
+        >>> Statistic(player=p, game=g2, at_bats=0, walks=0, doubles=0).save()
         >>> p.average
-        0.5
-        >>> Statistic(player=p, game=g3, at_bats=1, walks=1, hits=0).save()
+        Decimal("0.25")
+        >>> Statistic(player=p, game=g3, at_bats=4, walks=1, triples=2, home_runs=1).save()
         >>> p.average
-        0.5
-        >>> Statistic(player=p, game=g4, at_bats=2, walks=1, hits=0).save()
+        Decimal("0.5")
+        >>> Statistic(player=p, game=g4, at_bats=2, walks=1, home_runs=0).save()
         >>> p.average
-        0.33333333333333331
-        >>> Statistic(player=p, game=g5, at_bats=1, walks=0, hits=1).save()
+        Decimal("0.4")
+        >>> Statistic(player=p, game=g5, at_bats=1, walks=0, home_runs=1).save()
         >>> p.average
-        0.5
+        Decimal("0.4545454545454545454545454545")
         
         Make sure we clean up from these tests
         >>> Statistic.objects.all().delete()
@@ -443,10 +439,10 @@ class Player(models.Model):
         >>> Player.objects.all().delete()
         """
         if len(self.stats.all()) == 0:
-            return 0.0
-        if (self.walks + self.total_hits) > self.at_bats or self.total_hits > self.at_bats or self.walks > self.at_bats:
-            raise ValueError("walks and total_hits must be <= at_bats") 
-        return average(self.at_bats, self.walks, self.total_hits)
+            return Decimal("0")
+        if self.hits > self.at_bats:
+            raise ValueError("hits must be <= at_bats") 
+        return average(self.at_bats, self.hits)
     average = property(_average_get)
     
     def _on_base_percentage_get(self):
@@ -457,24 +453,24 @@ class Player(models.Model):
         >>> g3, created = Game.objects.get_or_create(game_date=date(2009, 03, 01), score=2, opponent_score=3, opponent="Test Opponent 3")
         >>> p, created = Player.objects.get_or_create(first_name="Test", last_name="Player")
         >>> p.on_base_percentage
-        0.0
-        >>> Statistic(player=p, game=g1, at_bats=0, walks=0, hits=0).save()
+        Decimal("0")
+        >>> Statistic(player=p, game=g1, at_bats=0, walks=0, singles=0).save()
         >>> p.on_base_percentage
-        0.0
-        >>> Statistic(player=p, game=g2, at_bats=3, walks=1, hits=2).save()
+        Decimal("0")
+        >>> Statistic(player=p, game=g2, at_bats=3, walks=1, doubles=2).save()
         >>> p.on_base_percentage
-        1.0
-        >>> Statistic(player=p, game=g3, at_bats=3, walks=1, hits=0).save()
+        Decimal("0.75")
+        >>> Statistic(player=p, game=g3, at_bats=3, walks=1, home_runs=0).save()
         >>> p.on_base_percentage
-        0.66666666666666663
+        Decimal("0.5")
         
         Make sure we clean up from these tests
         >>> Statistic.objects.all().delete()
         >>> Game.objects.all().delete()
         >>> Player.objects.all().delete()
         """
-        if (self.walks + self.hits) > self.at_bats or self.hits > self.at_bats or self.walks > self.at_bats:
-            raise ValueError("walks and hits must be <= at_bats")
+        if self.hits > self.at_bats:
+            raise ValueError("hits must be <= at_bats")
         return on_base_percentage(self.at_bats, self.walks, self.hits)
     on_base_percentage = property(_on_base_percentage_get)
 
@@ -491,48 +487,48 @@ class Player(models.Model):
         >>> g8, created = Game.objects.get_or_create(game_date=date(2009, 01, 01), score=2, opponent_score=3, opponent="Test Opponent 8")
         >>> p, created = Player.objects.get_or_create(first_name="Test", last_name="Player")
         >>> p.slugging_percentage
-        0.0
+        Decimal("0")
         
-        >>> Statistic(player=p, game=g1, at_bats=3, walks=3, hits=0, doubles=0, triples=0, home_runs=0).save()
+        >>> Statistic(player=p, game=g1, at_bats=3, walks=3, singles=0, doubles=0, triples=0, home_runs=0).save()
         >>> p.slugging_percentage
-        0.0
+        Decimal("0")
         
-        >>> Statistic(player=p, game=g2, at_bats=3, walks=0, hits=1, doubles=1, triples=1, home_runs=0).save()
+        >>> Statistic(player=p, game=g2, at_bats=3, walks=0, singles=1, doubles=1, triples=1, home_runs=0).save()
         >>> p.slugging_percentage
-        1.3333333333333333
+        Decimal("1")
         
-        >>> Statistic(player=p, game=g3, at_bats=4, walks=0, hits=1, doubles=1, triples=1, home_runs=1).save()
+        >>> Statistic(player=p, game=g3, at_bats=4, walks=0, singles=1, doubles=1, triples=1, home_runs=1).save()
         >>> p.slugging_percentage
-        1.5714285714285714
+        Decimal("1.6")
         
-        >>> Statistic(player=p, game=g4, at_bats=1, walks=0, hits=1, doubles=0, triples=0, home_runs=0).save()
+        >>> Statistic(player=p, game=g4, at_bats=1, walks=0, singles=1, doubles=0, triples=0, home_runs=0).save()
         >>> p.slugging_percentage
-        1.5
+        Decimal("1.545454545454545454545454545")
         
-        >>> Statistic(player=p, game=g5, at_bats=1, walks=0, hits=0, doubles=1, triples=0, home_runs=0).save()
+        >>> Statistic(player=p, game=g5, at_bats=1, walks=0, singles=0, doubles=1, triples=0, home_runs=0).save()
         >>> p.slugging_percentage
-        1.4444444444444444
+        Decimal("1.583333333333333333333333333")
         
-        >>> Statistic(player=p, game=g6, at_bats=1, walks=0, hits=0, doubles=0, triples=1, home_runs=0).save()
+        >>> Statistic(player=p, game=g6, at_bats=1, walks=0, singles=0, doubles=0, triples=1, home_runs=0).save()
         >>> p.slugging_percentage
-        1.5
+        Decimal("1.692307692307692307692307692")
         
-        >>> Statistic(player=p, game=g7, at_bats=1, walks=0, hits=0, doubles=0, triples=0, home_runs=1).save()
+        >>> Statistic(player=p, game=g7, at_bats=1, walks=0, singles=0, doubles=0, triples=0, home_runs=1).save()
         >>> p.slugging_percentage
-        1.6363636363636365
+        Decimal("1.857142857142857142857142857")
         
-        >>> Statistic(player=p, game=g8, at_bats=8, walks=0, hits=2, doubles=2, triples=2, home_runs=2).save()
+        >>> Statistic(player=p, game=g8, at_bats=8, walks=0, singles=2, doubles=2, triples=2, home_runs=2).save()
         >>> p.slugging_percentage
-        1.6842105263157894
+        Decimal("2.090909090909090909090909091")
         
         Make sure we clean up from these tests
         >>> Statistic.objects.all().delete()
         >>> Game.objects.all().delete()
         >>> Player.objects.all().delete()
         """
-        if (self.walks + self.total_hits) > self.at_bats or self.total_hits > self.at_bats or self.walks > self.at_bats:
-            raise ValueError("walks and total_hits must be <= at_bats")
-        return slugging_percentage(self.at_bats, self.walks, self.hits, self.doubles, self.triples, self.home_runs)
+        if self.hits > self.at_bats:
+            raise ValueError("hits must be <= at_bats")
+        return slugging_percentage(self.at_bats, self.singles, self.doubles, self.triples, self.home_runs)
     slugging_percentage = property(_slugging_percentage_get)
 
 class Game(models.Model):
@@ -713,7 +709,7 @@ class Statistic(models.Model):
     game = models.ForeignKey(Game, related_name="stats")
     at_bats = models.PositiveIntegerField(default=0)
     runs = models.PositiveIntegerField(default=0)
-    hits = models.PositiveIntegerField(default=0)
+    singles = models.PositiveIntegerField(default=0)
     doubles = models.PositiveIntegerField(default=0)
     triples = models.PositiveIntegerField(default=0)
     home_runs = models.PositiveIntegerField(default=0)
@@ -724,202 +720,169 @@ class Statistic(models.Model):
         unique_together = ("player", "game")
     
     def __unicode__(self):
-        return "%s %s (AB=%s, R=%s, H=%s, 2B=%s, 3B=%s, HR=%s, RBI=%s, BB=%s)" % (self.player, self.game, self.at_bats, self.runs, self.hits, self.doubles, self.triples, self.home_runs, self.rbis, self.walks, )
+        return "%s %s (AB=%s, R=%s, H=%s, 2B=%s, 3B=%s, HR=%s, RBI=%s, BB=%s)" % (self.player, self.game, self.at_bats, self.runs, self.singles, self.doubles, self.triples, self.home_runs, self.rbis, self.walks, )
 
-    def _total_hits_get(self):
+    def _hits_get(self):
         """
         Returns the total hits, doubles, triples, and home_runs
 
-        >>> s = Statistic(hits=0, doubles=0, triples=0, home_runs=0)
-        >>> s.total_hits
+        >>> s = Statistic(singles=0, doubles=0, triples=0, home_runs=0)
+        >>> s.hits
         0
-        >>> s = Statistic(hits=1, doubles=0, triples=0, home_runs=0)
-        >>> s.total_hits
+        >>> s = Statistic(singles=1, doubles=0, triples=0, home_runs=0)
+        >>> s.hits
         1
-        >>> s = Statistic(hits=0, doubles=1, triples=0, home_runs=0)
-        >>> s.total_hits
+        >>> s = Statistic(singles=0, doubles=1, triples=0, home_runs=0)
+        >>> s.hits
         1
-        >>> s = Statistic(hits=0, doubles=0, triples=1, home_runs=0)
-        >>> s.total_hits
+        >>> s = Statistic(singles=0, doubles=0, triples=1, home_runs=0)
+        >>> s.hits
         1
-        >>> s = Statistic(hits=0, doubles=0, triples=0, home_runs=1)
-        >>> s.total_hits
+        >>> s = Statistic(singles=0, doubles=0, triples=0, home_runs=1)
+        >>> s.hits
         1
-        >>> s = Statistic(hits=1, doubles=2, triples=3, home_runs=4)
-        >>> s.total_hits
+        >>> s = Statistic(singles=1, doubles=2, triples=3, home_runs=4)
+        >>> s.hits
         10        
         """
-        return self.hits + self.doubles + self.triples + self.home_runs
-    total_hits = property(_total_hits_get)
+        return self.singles + self.doubles + self.triples + self.home_runs
+    hits = property(_hits_get)
 
     def _average_get(self):
         """
-        Avg=H/(AB-BB)
+        Avg = H / AB
 
-        >>> s = Statistic(at_bats=4, walks=2, hits=1)
+        >>> s = Statistic(at_bats=4, walks=2, singles=1)
         >>> s.average
-        0.5
-        >>> s = Statistic(at_bats=0, walks=0, hits=0)
+        Decimal("0.25")
+        >>> s = Statistic(at_bats=0, singles=0)
         >>> s.average
-        0.0
-        >>> s = Statistic(at_bats=1, walks=1, hits=0)
+        Decimal("0")
+        >>> s = Statistic(at_bats=7, doubles=2, triples=3)
+        >>> s.average                
+        Decimal("0.7142857142857142857142857143")
+        >>> s = Statistic(at_bats=2, singles=0)
+        >>> s.average                
+        Decimal("0")
+        >>> s = Statistic(at_bats=1, singles=1)
         >>> s.average
-        0.0
-        >>> s = Statistic(at_bats=2, walks=1, hits=0)
-        >>> s.average
-        0.0
-        >>> s = Statistic(at_bats=1, walks=0, hits=1)
-        >>> s.average
-        1.0
+        Decimal("1")
         
-        At bats cannot be 0 if walks or hits are not 0
-        >>> s = Statistic(at_bats=0, walks=1, hits=0)
+        At bats cannot be 0 if hits are not 0
+        >>> s = Statistic(at_bats=0, singles=1)
         >>> s.average
         Traceback (most recent call last):
             ...
-        ValueError: walks and total_hits must be <= at_bats
-        
-        At bats cannot be 0 if walks or hits are not 0
-        >>> s = Statistic(at_bats=0, walks=0, hits=1)
-        >>> s.average
-        Traceback (most recent call last):
-            ...
-        ValueError: walks and total_hits must be <= at_bats
-        
-        Walks cannot be greater than at bats
-        >>> s = Statistic(at_bats=1, walks=2, hits=0)
-        >>> s.average
-        Traceback (most recent call last):
-            ...
-        ValueError: walks and total_hits must be <= at_bats
+        ValueError: hits must be <= at_bats
         
         Hits cannot be greater than at bats
-        >>> s = Statistic(at_bats=1, walks=1, hits=2)
+        >>> s = Statistic(at_bats=1, singles=2)
         >>> s.average
         Traceback (most recent call last):
             ...
-        ValueError: walks and total_hits must be <= at_bats
+        ValueError: hits must be <= at_bats
         """
-        if (self.walks + self.total_hits) > self.at_bats or self.total_hits > self.at_bats or self.walks > self.at_bats:
-            raise ValueError("walks and total_hits must be <= at_bats") 
-        return average(self.at_bats, self.walks, self.total_hits)
+        if self.hits > self.at_bats:
+            raise ValueError("hits must be <= at_bats") 
+        return average(self.at_bats, self.hits)
     average = property(_average_get)
 
     def _on_base_percentage_get(self):
         """
-        OBP=(H+BB)/AB
+        OBP = (H + BB) / (AB + BB)
         
-        >>> s = Statistic(at_bats=4, walks=2, hits=1)
+        >>> s = Statistic()
         >>> s.on_base_percentage
-        0.75
-        >>> s = Statistic(at_bats=0, walks=0, hits=0)
+        Decimal("0")
+        >>> s = Statistic(at_bats=4, walks=2, singles=1)
         >>> s.on_base_percentage
-        0.0
-        >>> s = Statistic(at_bats=3, walks=1, hits=2)
+        Decimal("0.5")
+        >>> s = Statistic(at_bats=3, walks=1, triples=2)
         >>> s.on_base_percentage
-        1.0
-        
-        At bats cannot be 0 if walks or hits are not 0
-        >>> s = Statistic(at_bats=0, walks=1, hits=0)
-        >>> s.on_base_percentage
-        Traceback (most recent call last):
-            ...
-        ValueError: walks and hits must be <= at_bats
+        Decimal("0.75")
         
         At bats cannot be 0 if walks or hits are not 0
-        >>> s = Statistic(at_bats=0, walks=0, hits=1)
+        >>> s = Statistic(at_bats=0, walks=1, singles=0)
         >>> s.on_base_percentage
-        Traceback (most recent call last):
-            ...
-        ValueError: walks and hits must be <= at_bats
+        Decimal("0")
         
-        Walks cannot be greater than at bats
-        >>> s = Statistic(at_bats=1, walks=2, hits=0)
+        At bats cannot be 0 if walks or hits are not 0
+        >>> s = Statistic(at_bats=0, walks=0, singles=1)
         >>> s.on_base_percentage
         Traceback (most recent call last):
             ...
-        ValueError: walks and hits must be <= at_bats
+        ValueError: hits must be <= at_bats
         
         Hits cannot be greater than at bats
-        >>> s = Statistic(at_bats=1, walks=1, hits=2)
+        >>> s = Statistic(at_bats=1, walks=1, singles=2)
         >>> s.on_base_percentage
         Traceback (most recent call last):
             ...
-        ValueError: walks and hits must be <= at_bats
+        ValueError: hits must be <= at_bats
         """
-        if (self.walks + self.hits) > self.at_bats or self.hits > self.at_bats or self.walks > self.at_bats:
-            raise ValueError("walks and hits must be <= at_bats")
+        if self.hits > self.at_bats:
+            raise ValueError("hits must be <= at_bats")
         return on_base_percentage(self.at_bats, self.walks, self.hits)
     on_base_percentage = property(_on_base_percentage_get)
     
     def _slugging_percentage_get(self):
         """
-        >>> s = Statistic(at_bats=0, walks=0, hits=0, doubles=0, triples=0, home_runs=0)
+        >>> s = Statistic()
         >>> s.slugging_percentage
-        0.0
+        Decimal("0")
         
-        >>> s = Statistic(at_bats=3, walks=3, hits=0, doubles=0, triples=0, home_runs=0)
+        >>> s = Statistic(at_bats=3, walks=3, singles=0, doubles=0, triples=0, home_runs=0)
         >>> s.slugging_percentage
-        0.0
+        Decimal("0")
         
-        >>> s = Statistic(at_bats=3, walks=0, hits=1, doubles=1, triples=1, home_runs=0)
+        >>> s = Statistic(at_bats=3, walks=0, singles=1, doubles=1, triples=1, home_runs=0)
         >>> s.slugging_percentage
-        1.3333333333333333
+        Decimal("2")
         
-        >>> s = Statistic(at_bats=4, walks=0, hits=1, doubles=1, triples=1, home_runs=1)
+        >>> s = Statistic(at_bats=4, walks=0, singles=1, doubles=1, triples=1, home_runs=1)
         >>> s.slugging_percentage
-        1.75
+        Decimal("2.5")
         
-        >>> s = Statistic(at_bats=1, walks=0, hits=1, doubles=0, triples=0, home_runs=0)
+        >>> s = Statistic(at_bats=1, walks=0, singles=1, doubles=0, triples=0, home_runs=0)
         >>> s.slugging_percentage
-        1.0
+        Decimal("1")
         
-        >>> s = Statistic(at_bats=1, walks=0, hits=0, doubles=1, triples=0, home_runs=0)
+        >>> s = Statistic(at_bats=1, walks=0, singles=0, doubles=1, triples=0, home_runs=0)
         >>> s.slugging_percentage
-        1.0
+        Decimal("2")
         
-        >>> s = Statistic(at_bats=1, walks=0, hits=0, doubles=0, triples=1, home_runs=0)
+        >>> s = Statistic(at_bats=1, walks=0, singles=0, doubles=0, triples=1, home_runs=0)
         >>> s.slugging_percentage
-        2.0
+        Decimal("3")
         
-        >>> s = Statistic(at_bats=1, walks=0, hits=0, doubles=0, triples=0, home_runs=1)
+        >>> s = Statistic(at_bats=1, walks=0, singles=0, doubles=0, triples=0, home_runs=1)
         >>> s.slugging_percentage
-        3.0
+        Decimal("4")
         
-        >>> s = Statistic(at_bats=8, walks=0, hits=2, doubles=2, triples=2, home_runs=2)
+        >>> s = Statistic(at_bats=8, walks=0, singles=2, doubles=2, triples=2, home_runs=2)
         >>> s.slugging_percentage
-        1.75
+        Decimal("2.5")
         
-        At bats cannot be 0 if walks or hits are not 0
-        >>> s = Statistic(at_bats=0, walks=1, hits=0)
+        >>> s = Statistic(at_bats=0, walks=1, singles=0)
+        >>> s.slugging_percentage
+        Decimal("0")
+        
+        At bats cannot be 0 if hits are not 0
+        >>> s = Statistic(at_bats=0, walks=0, singles=1)
         >>> s.slugging_percentage
         Traceback (most recent call last):
             ...
-        ValueError: walks and total_hits must be <= at_bats
-        
-        At bats cannot be 0 if walks or hits are not 0
-        >>> s = Statistic(at_bats=0, walks=0, hits=1)
-        >>> s.slugging_percentage
-        Traceback (most recent call last):
-            ...
-        ValueError: walks and total_hits must be <= at_bats
-        
-        Walks cannot be greater than at bats
-        >>> s = Statistic(at_bats=1, walks=2, hits=0)
-        >>> s.slugging_percentage
-        Traceback (most recent call last):
-            ...
-        ValueError: walks and total_hits must be <= at_bats
+        ValueError: hits must be <= at_bats
         
         Hits cannot be greater than at bats
-        >>> s = Statistic(at_bats=1, walks=1, hits=2)
+        >>> s = Statistic(at_bats=1, walks=1, singles=2)
         >>> s.slugging_percentage
         Traceback (most recent call last):
             ...
-        ValueError: walks and total_hits must be <= at_bats
+        ValueError: hits must be <= at_bats
         """
-        if (self.walks + self.total_hits) > self.at_bats or self.total_hits > self.at_bats or self.walks > self.at_bats:
-            raise ValueError("walks and total_hits must be <= at_bats")
-        return slugging_percentage(self.at_bats, self.walks, self.hits, self.doubles, self.triples, self.home_runs)
+        if self.hits > self.at_bats:
+            raise ValueError("hits must be <= at_bats")
+        return slugging_percentage(self.at_bats, self.singles, self.doubles, self.triples, self.home_runs)
     slugging_percentage = property(_slugging_percentage_get)
         

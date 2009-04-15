@@ -16,6 +16,7 @@
             <th class="data">AB</th>
             <th class="data">R</th>
             <th class="data">H</th>
+            <th class="data">1B</th>
             <th class="data">2B</th>
             <th class="data">3B</th>
             <th class="data">HR</th>
@@ -36,6 +37,7 @@
                 <td class="data">{{ player.at_bats|default:"-" }}</td>
                 <td class="data">{{ player.runs|default:"-" }}</td>
                 <td class="data">{{ player.hits|default:"-" }}</td>
+                <td class="data">{{ player.singles|default:"-" }}</td>
                 <td class="data">{{ player.doubles|default:"-" }}</td>
                 <td class="data">{{ player.triples|default:"-" }}</td>
                 <td class="data">{{ player.home_runs|default:"-" }}</td>
