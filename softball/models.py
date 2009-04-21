@@ -48,7 +48,7 @@ def on_base_percentage(at_bats, walks, hits):
 
 def slugging_percentage(at_bats, hits, doubles, triples, home_runs):
     """
-    SLG = (H + (2B * 2) + (3B * 2) + (HR * 3)) / AB
+    SLG = (1B + (2B * 2) + (3B * 2) + (HR * 3)) / AB
 
     >>> slugging_percentage(0, 0, 0, 0, 0)
     Decimal("0")
