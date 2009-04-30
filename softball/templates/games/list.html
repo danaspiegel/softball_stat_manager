@@ -27,11 +27,8 @@
             </tr>
         {% endfor %}
     </tbody>
-    <tfoot>
-        <tr>
-            <td colspan="6"><a href="{% url game_add %}">Add Game</a></td>
-        </tr>
-    </tfoot>
 </table>
+
+<p><a href="{% url game_add %}">Add Game</a></p>
 
 {% endblock content %}
